@@ -1,7 +1,11 @@
 import random, string
-def passworsd_generator(length):
+
+def passworsd_generator(length=25):
+    
     elementos = string.ascii_letters + string.digits + string.punctuation + string.ascii_uppercase
     password = ""
+    
     for _ in range(length):
         password += random.choice(elementos)
+        
     return password

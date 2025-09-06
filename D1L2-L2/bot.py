@@ -1,29 +1,34 @@
-import discord, os 
-from dotenv import load_dotenv
+import discord, os
 import app
+from discord.ext import commands
+from dotenv import load_dotenv
 
 load_dotenv()
 token = os.getenv("dt")
 
-intents = discord.Intents.default()
+intents = discord.Intents.defaul()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='<', intents=intents)
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f"Hola , hemos iniciado sesión como {client.user}")
+    print(f"We have logged in as {bot.user}")
     
+@bot.command()
+async def hello(ctx):
+    await ctx.send("fHola, soy un bot {bot.user}!")
     
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content.startswith('?hola'):
-        await message.channel.send("Hola bienvenido soy tu bot_SAM de confianza")
-    elif message.content.startswith("?password"):
-        x = app.passworsd_generator(25)
-        await message.channel.send(f"Tu contraseña es: {x}")
-client.run(token)
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.SEN("he" * count_heh)
 
-# pip es para hacer diferentes unciones en la terminal 
+@bot.command(name = "psw")
+async def passwords(ctx, largo = 25):
+    data = app.passworsd_generator(largo)
+    await ctx.send(f"🔒 contraseña generada {data}")
+
+bot.run(token)
+
+
+
